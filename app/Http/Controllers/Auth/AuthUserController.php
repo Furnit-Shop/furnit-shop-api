@@ -66,7 +66,6 @@ class AuthUserController extends Controller
         return User::all();
     }
     public function profileUser(){
-        // $user = User::where('name','email')->get();
         $user = DB::select('SELECT id, name, email, phone_number FROM users');
         return response([
             'msg'=>'Get data',
