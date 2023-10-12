@@ -26,7 +26,6 @@ Route::get('/test', function (){
 Route::post('/register', [Auth\AuthUserController::class, 'register']);
 Route::post('/login', [Auth\AuthUserController::class, 'login']);
 
-
 Route::group(['middleware' => ['auth:sanctum']], function (){
     Route::get('/get_all', [Auth\AuthUserController::class, 'getAllUser']);
     Route::get('/profile_user', [Auth\AuthUserController::class, 'profileUser']);
