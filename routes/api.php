@@ -24,11 +24,12 @@ Route::get('/test', function (){
 });
 
 Route::post('/register', [Auth\AuthUserController::class, 'register']);
-Route::get('/get_all', [Auth\AuthUserController::class, 'getAllUser']);
 Route::post('/login', [Auth\AuthUserController::class, 'login']);
-Route::get('/profile_user', [Auth\AuthUserController::class, 'profileUser']);
+
 
 Route::group(['middleware' => ['auth:sanctum']], function (){
+    Route::get('/get_all', [Auth\AuthUserController::class, 'getAllUser']);
+    Route::get('/profile_user', [Auth\AuthUserController::class, 'profileUser']);
     Route::get('/get_product', [Booking\BookingController::class, 'bookingProduct']);
     Route::post('/product/post', [Product\ProductController::class, 'postProduct']);
     Route::get('/product/get_product', [Product\ProductController::class, 'getProduct']);
