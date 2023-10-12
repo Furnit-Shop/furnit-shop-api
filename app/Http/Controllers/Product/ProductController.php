@@ -12,6 +12,7 @@ class ProductController extends Controller
         $request->validate([
            'product_name'=>'required',
             'product_image'=>'required',
+            'product_qty'=>'required',
             'product_price'=>'required',
             'product_sate'=>'required'
 
@@ -19,6 +20,7 @@ class ProductController extends Controller
         $product = ProductModel::create([
             'product_name'=>$request->product_name,
             'product_image'=>$request->product_image,
+            'product_qty'=>$request->product_qty,
             'product_price'=>$request->product_price,
             'product_sate'=>$request->product_sate
 

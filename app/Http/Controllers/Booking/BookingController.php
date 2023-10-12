@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\DB;
 class BookingController extends Controller
 {
     public function bookingProduct(){
-        $booking = DB::select('SELECT id FROM products');
+        $booking = DB::select('SELECT product_price FROM products');
+        $qty = 1;
         if ($booking == 1){
             return response([
                 'data'=>$booking
