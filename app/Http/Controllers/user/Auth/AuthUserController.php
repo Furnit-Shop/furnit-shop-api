@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class AuthUserSellerController extends Controller
+class AuthUserController extends Controller
 {
     public function register(Request $request){
         $request->validate([
