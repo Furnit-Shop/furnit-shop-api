@@ -12,18 +12,20 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-//
-//Route::post('/register', [Auth\AuthUserController::class, 'register']);
-//Route::post('/login', [Auth\AuthUserController::class, 'login']);
-//
-//
-//Route::group(['middleware' => ['auth:sanctum']], function (){
-//    Route::get('/get_all', [Auth\AuthUserController::class, 'getAllUser']);
-//    Route::get('/profile_user', [Auth\AuthUserController::class, 'profileUser']);
-//    Route::get('/get_product', [Booking\BookingController::class, 'bookingProduct']);
-//    Route::post('/product/post', [Product\ProductController::class, 'postProduct']);
-//    Route::get('/product/get_product', [Product\ProductController::class, 'getProduct']);
-//});
+
+Route::post('/register', [Auth\AuthUserController::class, 'register']);
+Route::post('/login', [Auth\AuthUserController::class, 'login']);
+Route::get('/test', function (){
+    return "Hello World";
+});
+
+Route::group(['middleware' => ['auth:sanctum']], function (){
+   Route::get('/get_all', [Auth\AuthUserController::class, 'getAllUser']);
+   Route::get('/profile_user', [Auth\AuthUserController::class, 'profileUser']);
+   Route::get('/get_product', [Booking\BookingController::class, 'bookingProduct']);
+   Route::post('/product/post', [Product\ProductController::class, 'postProduct']);
+   Route::get('/product/get_product', [Product\ProductController::class, 'getProduct']);
+});
 
 Route::prefix("seller")->group(function () {
     foreach (glob(dirname(__FILE__) . "/API/seller/*.php") as $filename) {
