@@ -11,16 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('users');
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('user_name')->nullable();
-            $table->string('merchant')->nullable();
-            $table->string('email')->unique();
-            $table->string('phone_number')->nullable();
-            $table->enum('user_role',['seller','costumer'])->default('seller');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

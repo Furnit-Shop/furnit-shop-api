@@ -1,79 +1,44 @@
-version: "3.9"
-
-networks:
-    laravel:
-        name: laravel
-
+version: '3'
 services:
-
-    nginx:
-        build:
-            context: .
-            dockerfile: nginx.dockerfile
-        depends_on:
-            - php
-            - mysql
-        container_name: nginx
-        ports:
-            - 80:80
-            - 443:443
-        volumes:
-            - ./src:/var/www/html
-        networks:
-            - laravel
-
+    # PHP Service
     php:
         build:
             context: .
-            dockerfile: php.dockerfile
-        container_name: php
+            dockerfile: ./docker/php/Dockerfile
         volumes:
-            - ./src:/var/www/html
+            - ./app:/var/www/html
         networks:
             - laravel
 
-    mysql:
-        image: mysql:8.0.27
-        container_name: mysql
+    # Nginx Service
+    nginx:
+        image: nginx:latest
         ports:
-            - 3306:3306
+            - "8000:80"
         volumes:
-            - ./mysql:/var/lib/mysql
+            - ./public:/var/www/html/public
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - laravel
+        depends_on:
+            - php
+
+    # MySQL Service
+    mysql:
+        image: mysql:latest
         environment:
-            MYSQL_DATABASE: laraveldb
-            MYSQL_USER: laravel
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: laravel_db
+            MYSQL_USER: laravel_user
+            MYSQL_PASSWORD: db1234
+            MYSQL_ROOT_PASSWORD: db1234
+        volumes:
+            - mysql_data:/var/lib/mysql
         networks:
             - laravel
 
-    composer:
-        image: composer:latest
-        container_name: composer
-        volumes:
-            - ./src:/var/www/html
-        working_dir: /var/www/html
-        networks:
-            - laravel
+networks:
+    laravel:
+        driver: bridge
 
-    artisan:
-        build:
-            context: .
-            dockerfile: php.dockerfile
-        container_name: artisan
-        volumes:
-            - ./src:/var/www/html
-        working_dir: /var/www/html
-        entrypoint: ['php', 'artisan']
-        networks:
-            - laravel
-
-    npm:
-        image: node:current-alpine
-        container_name: npm
-        volumes:
-            - ./src:/var/www/html
-        working_dir: /var/www/html
-        entrypoint: ['npm']
-        networks:
-            - laravel
+volumes:
+    mysql_data:

@@ -14,6 +14,7 @@ class AutCostumerController extends Controller
         $request->validate([
             'name'=>'required|string|min:2|max:100',
             'email'=>'required|string|unique:users|email',
+            'phone_number'=>'required|string|',
             'password'=>'required|string|min:8|max:10'
         ]);
         $user_exist = User::where('email', $request->email)->first();
@@ -24,14 +25,12 @@ class AutCostumerController extends Controller
             ]);
         }
         $user = new User();
-        $user['name']->$request->name;
-
-        $user->save();
-//        $user = User::create([
-//            "name"=>$request->name,
-//            'email'=>$request->email,
-//            'password'=>Hash::make($request->password),
-//        ]);
+        $user = User::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'phone_number'=>$request->phone_number,
+            'password'=>Hash::make($request->password),
+        ]);
         return response([
             'message'=>'Create Success',
             'success'=>true,

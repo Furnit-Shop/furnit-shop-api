@@ -30,8 +30,36 @@ class ProductController extends Controller
             'product'=>$product
         ]);
     }
+    /* public function favoriteProduct(Request $request, $productId)
+    {
+        $product = ProductModel::findOrFail($productId);
+        $user = auth()->user(); // Get the authenticated user
+
+        // Attach the product to the user's favorites
+        $user->favorites()->attach($product);
+
+        return response()->json(['message' => 'Product favorited successfully']);
+    }
+    public function getUserFavorites()
+    {
+        $user = auth()->user(); // Get the authenticated user
+
+        $favorites = $user->favorites()->get();
+
+        return response()->json(['favorites' => $favorites]);
+    }
+    */
     public function getProduct(){
         return ProductModel::all();
+    }
+    public function searchProduct(Request $request)
+    {
+        $query = $request->input('query'); // Get the search query from request
+
+        $results = ProductModel::where('product_name', "%$query%") // Adjust 'name' to the column you want to search
+        ->get();
+
+        return response()->json(['results' => $results]);
     }
 
 }
