@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\user\Auth;
+use App\Http\Controllers\seller\Product;
+use App\Http\Controllers\Testing;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,27 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/register', [Auth\AuthUserController::class, 'register']);
-Route::post('/login', [Auth\AuthUserController::class, 'login']);
-Route::get('/test', function (){
-    return "Hello World";
-});
+Route::post('/register', [Auth\AutCostumerController::class, 'register']);
+Route::post('/login', [Auth\AutCostumerController::class, 'login']);
+Route::get('/test-res', [Testing\TestController::class, 'TestApp']);
 
 Route::group(['middleware' => ['auth:sanctum']], function (){
-   Route::get('/get_all', [Auth\AuthUserController::class, 'getAllUser']);
-   Route::get('/profile_user', [Auth\AuthUserController::class, 'profileUser']);
-   Route::get('/get_product', [Booking\BookingController::class, 'bookingProduct']);
-   Route::post('/product/post', [Product\ProductController::class, 'postProduct']);
-   Route::get('/product/get_product', [Product\ProductController::class, 'getProduct']);
+    Route::get('/get_all', [Auth\AuthUserController::class, 'getAllUser']);
+    Route::get('/profile_user', [Auth\AuthUserController::class, 'profileUser']);
+    Route::get('product/get_product',[Product\ProductController::class, 'getProduct']);
+    Route::post('/product/post', [Product\ProductController::class, 'postProduct']);
+    Route::put('/product/search', [Product\ProductController::class, 'searchProduct']);
+    Route::get('/product/search_pro', [Product\ProductController::class, 'search']);
+    Route::put('/product/search_key', [Product\ProductController::class, 'searchKey']);
 });
 
-Route::prefix("seller")->group(function () {
-    foreach (glob(dirname(__FILE__) . "/API/seller/*.php") as $filename) {
-        include $filename;
-    }
-});
-Route::prefix("user")->group(function () {
-    foreach (glob(dirname(__FILE__) . "/API/user/*.php") as $filename) {
-        include $filename;
-    }
-});

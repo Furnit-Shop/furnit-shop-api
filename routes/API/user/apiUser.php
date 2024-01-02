@@ -2,9 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth;
-use  App\Http\Controllers\Product;
-use App\Http\Controllers\Booking;
+use App\Http\Controllers\user\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,6 +21,6 @@ use App\Http\Controllers\Booking;
 Route::get('/test', function (){
     return "Hello World";
 });
-
+Route::post('/register', [Auth\AutCostumerController::class, "register"]);
 
 
