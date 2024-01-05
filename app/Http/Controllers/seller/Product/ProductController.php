@@ -5,6 +5,7 @@ namespace App\Http\Controllers\seller\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Product\ProductModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -37,6 +38,26 @@ class ProductController extends Controller
             'product'=> ProductModel::all()
         ]);
     }
+    public function productCard()
+    {
+        $product = DB::select('SELECT id, product_name, product_image, product_price FROM products');
+        return response([
+            "productCard"=>$product
+        ]);
+
+    }
+    public function deletePrduct($id) {
+        $product = ProductModel::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully'], 200);
+    }
+
     public function searchProduct(Request $request)
     {
         $query = $request->input('query'); // Get the search query from request
@@ -61,14 +82,14 @@ class ProductController extends Controller
             'product'=>$query
         ]);
     }
-    public function searchKey(Request $request)
+
+    public function searchQuery($query)
     {
+        $result = ProductModel::search($query)->get();
 
-        $query = $request->input('query');
-        //$results = ProductModel::whereRaw("MATCH('product_name') AGAINST(? IN BOOLEAN MODE)", [$query])->get();
+        return response([
+            'searchPro'=>$result
+        ]);
 
-       $results = ProductModel::search($query)->get();
-
-        return response()->json(['results' => $results]);
     }
 }

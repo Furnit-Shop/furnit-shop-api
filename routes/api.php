@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user\Auth;
+use App\Http\Controllers\seller\Booking;
 use App\Http\Controllers\seller\Product;
 use App\Http\Controllers\Testing;
 
@@ -26,8 +27,11 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
     Route::get('/profile_user', [Auth\AuthUserController::class, 'profileUser']);
     Route::get('product/get_product',[Product\ProductController::class, 'getProduct']);
     Route::post('/product/post', [Product\ProductController::class, 'postProduct']);
-    Route::put('/product/search', [Product\ProductController::class, 'searchProduct']);
+    Route::get('/product/get_booking', [Booking\BookingController::class, 'bookingProduct']);
+    Route::delete('/product/delete/{id}', [Product\ProductController::class, 'deletePrduct']);
     Route::get('/product/search_pro', [Product\ProductController::class, 'search']);
-    Route::put('/product/search_key', [Product\ProductController::class, 'searchKey']);
+    Route::get('/product/get_productCard', [Product\ProductController::class, 'productCard']);
+    Route::put('/product/search_q/{query}', [Product\ProductController::class, 'searchQuery']);
+    Route::get('/product/search_t', [Product\ProductController::class, 'searchText']);
 });
 

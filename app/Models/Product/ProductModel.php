@@ -18,9 +18,23 @@ class ProductModel extends Model
         'product_price',
         'product_sate',
     ];
-    public function searchableAs()
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray()
     {
-        return 'product_name';
+        $array = $this->toArray();
+        // Define fields to be indexed
+        return [
+            'id' => $array['id'],
+            'product_name' => $array['product_name'],
+            'product_description' => $array['product_description'],
+            // Add other searchable fields here
+        ];
     }
+
 
 }
